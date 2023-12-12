@@ -8,10 +8,23 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function WinnerAccouncement({ winner }){
+  return (
+    <div className = "winner-announcement">
+      {winner} WINS!
+    </div>
+  );
+}
+
+
+
+function Board({ xIsNext, squares, onPlay, isGameOver}) {
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
+    }
+    if (isGameOver){
+      return null;
     }
     const nextSquares = squares.slice();
     if (xIsNext) {
@@ -21,18 +34,8 @@ function Board({ xIsNext, squares, onPlay }) {
     }
     onPlay(nextSquares);
   }
-
-  const winner = calculateWinner(squares);
-  let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-  }
-
   return (
     <>
-      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -64,34 +67,52 @@ export default function Game() {
     setCurrentMove(nextHistory.length - 1);
   }
 
-  function jumpTo(nextMove) {
-    setCurrentMove(nextMove);
+  function goBack(){
+    if (currentMove > 0) {
+      setCurrentMove(currentMove - 1);
+    }
   }
 
-  const moves = history.map((squares, move) => {
-    let description;
-    if (move > 0) {
-      description = 'Go to move #' + move;
-    } else {
-      description = 'Go to game start';
-    }
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-  });
+  function restartGame(){
+    setHistory([Array(9).fill(null)]);
+    setCurrentMove(0);
+  }
+
+
+  const winner = calculateWinner(currentSquares);
+  const isGameOver = winner != null;
+
+  let status;
+  if (winner) {
+    status = null;
+  } else {
+    status = (xIsNext ? 'X' : 'O');
+  }
 
   return (
+    <>
     <div className="game">
+    <div className="status">
+      <h2>TURN</h2>
+      <p><strong>{status}</strong></p>
+      </div>
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        {isGameOver ? (
+          <WinnerAccouncement winner = {winner} />
+        ) : (
+          <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} isGameOver={isGameOver}/>
+        )}
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <button className="buttons" onClick={restartGame}>
+          Restart
+        </button>
+        <button className="buttons" onClick={goBack} disabled={currentMove === 0}>
+          Back
+        </button>
       </div>
     </div>
-  );
+  </>);
 }
 
 function calculateWinner(squares) {

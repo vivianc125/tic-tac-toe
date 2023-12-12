@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    color: rgb(170, 143, 143);
   }
   
   body {
@@ -58,17 +59,17 @@
   
   .square {
     background: #fff;
-    border: 1px solid #999;
+    border: 2px solid #ecc8c8;
     float: left;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    line-height: 34px;
-    height: 34px;
+    line-height: 100px;
+    height: 100px;
+    width: 100px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 34px;
   }
   
   .board-row:after {
@@ -78,14 +79,69 @@
   }
   
   .status {
-    margin-bottom: 10px;
+    display:flex;
+    flex-direction: column;
+    margin-right: 10px;
+    height: 100px;
+    border: 2px solid #ecc8c8;
+    border-radius: 8px;
+    text-align: center;
   }
+
+  .status p{
+    display: block;
+    font-size: 20px;
+    padding:0px 25px 0px 25px;
+    margin: auto;
+    }
+
+  .status h2{
+    background-color:#ecc8c8;
+    padding:0px 25px 0px 25px;
+    color: white;
+    margin: 0;
+  }
+
   .game {
     display: flex;
     flex-direction: row;
+    justify-content:center;
   }
   
   .game-info {
-    margin-left: 20px;
+    display: flex;
+    margin-left: 50px;
+    flex-direction:column;
   }
-  
+
+
+  .buttons{
+    background-color: #FFFFFF;
+    border: 1px solid #ecc8c8;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: rgb(170, 143, 143);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 10px;
+    outline: none;
+    padding: 15px 50px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+    user-select: none;
+    -webkit-user-select: none;
+    width: auto;
+  }
+
+  .winner-announcement{
+    margin: auto;
+    font-size: 100px;
+    padding:50% 0;
+  }
